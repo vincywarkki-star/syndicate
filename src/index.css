@@ -1,0 +1,156 @@
+@import "tailwindcss";
+
+/* ഇതിലെല്ലാം 60% ചെറുതാക്കിയ ലുക്ക് നിലനിർത്താൻ */
+html {
+  font-size: 84%;
+}
+
+/* 🌀 ആനിമേഷൻ കീഫ്രെയിമുകൾ 🌀 */
+@layer utilities {
+  
+  /* 1. പതുക്കെയുള്ള Pulse Animation (മൊത്തം ഗ്രാഫിക്കിന്) */
+  @keyframes subtlePulse {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 0.95;
+    }
+    50% {
+      transform: scale(1.03);
+      opacity: 1;
+    }
+  }
+
+  /* 2. ഹെക്സഗൺ പതുക്കെ കറങ്ങാൻ (Spin Animation - optional) */
+  @keyframes subtleRotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* 3. ചുവന്ന കണികകൾ (Particles) ഒഴുകാൻ */
+  @keyframes energyFlow {
+    0%, 100% {
+      opacity: 0.4;
+      transform: translateY(0);
+    }
+    50% {
+      opacity: 0.8;
+      transform: translateY(-20px);
+    }
+  }
+
+ /* 🔥 ഡിലേ ഇല്ലാത്ത പക്കാ ഷാർപ്പ് ഗ്ലിച്ച് ആനിമേഷൻ 🔥 */
+  @keyframes occasional-flicker-white {
+    /* 0% മുതൽ 75.9% വരെ യാതൊരു മാറ്റവുമില്ലാതെ ചുവപ്പിൽ നിൽക്കും */
+    0%, 75.9% {
+      opacity: 1;
+      color: #dc2626; 
+      text-shadow: 0 0 15px rgba(220, 38, 38, 0.8); 
+      transform: translate(0, 0);
+    }
+    
+    /* കൃത്യം 76% മുതൽ 76.9% വരെ മാത്രം വെള്ള (Sharp Cut) */
+    76%, 76.9% {
+      opacity: 0.8;
+      color: #ffffff; 
+      text-shadow: 0 0 30px #ffffff, 2px 2px #ff00ff, -2px -2px #00ffff; 
+      transform: translate(2px, -1px);
+    }
+    
+    /* 77% ആകുമ്പോൾ സ്മൂത്ത്നെസ്സ് ഇല്ലാതെ വീണ്ടും ചുവപ്പ് */
+    77%, 80.9% {
+      opacity: 1;
+      color: #dc2626; 
+      text-shadow: 0 0 15px rgba(220, 38, 38, 0.8);
+      transform: translate(0, 0);
+    }
+    
+    /* 81% മുതൽ 81.9% വരെ രണ്ടാമത്തെ ഗ്ലിച്ച് */
+    81%, 81.9% {
+      opacity: 0.6;
+      color: #ffffff; 
+      text-shadow: 0 0 35px #ffffff, -2px 2px #ff00ff, 2px -2px #00ffff;
+      transform: translate(-2px, 1px);
+    }
+    
+    /* 82% മുതൽ ബാക്കി സമയം മൊത്തം പക്കാ ചുവപ്പ് */
+    82%, 100% {
+      opacity: 1;
+      color: #dc2626; 
+      text-shadow: 0 0 15px rgba(220, 38, 38, 0.8);
+      transform: translate(0, 0);
+    }
+  }
+  /* ഇവയെ ആനിമേഷൻ ക്ലാസുകളാക്കി മാറ്റുന്നു */
+  .animate-subtle-pulse {
+    animation: subtlePulse 4s ease-in-out infinite;
+  }
+  .animate-subtle-rotate {
+    animation: subtleRotate 20s linear infinite;
+  }
+  .animate-energy-flow {
+    animation: energyFlow 6s ease-in-out infinite;
+  }
+  /* പുതിയ ഇന്റർമിറ്റന്റ് ഗ്ലിച്ച് ക്ലാസ്സ് (6 സെക്കന്റ് ലൂപ്പിൽ പ്രവർത്തിക്കുന്നു) */
+  .animate-occasional-glitch {
+    animation: occasional-flicker-white 6s infinite;
+  }
+}
+/* 🌀 മൊബൈലിൽ പെർമനന്റ് വൈറ്റ് ഗ്ലോ & സീക്വൻഷ്യൽ ഫ്ലിക്കർ (9 സെക്കന്റ് ലൂപ്പ്) 🌀 */
+@layer utilities {
+  @media (max-width: 768px) {
+    
+    /* 1. Instagram Base (എപ്പോഴും വൈറ്റ് ഗ്ലോ, ഗ്ലിച്ച് സമയത്ത് അപ്രത്യക്ഷമാകും) */
+    @keyframes ig-base-seq {
+      0%, 100% { color: #ffffff; filter: drop-shadow(0 0 8px #ffffff); opacity: 1; }
+      /* IG's Turn: 0% to 18% */
+      2% { opacity: 0; } 
+      5% { opacity: 1; filter: drop-shadow(0 0 15px #ffffff); } 
+      8% { opacity: 0; } 
+      11% { opacity: 1; filter: drop-shadow(0 0 15px #ffffff); } 
+      14% { opacity: 0; } 
+      18%, 100% { color: #ffffff; filter: drop-shadow(0 0 8px #ffffff); opacity: 1; }
+    }
+    
+    /* Instagram Gradient (ഗ്ലിച്ച് സമയത്ത് മാത്രം ബ്രാൻഡ് കളർ വരും) */
+    @keyframes ig-grad-seq {
+      0%, 100% { opacity: 0; filter: none; }
+      /* IG's Turn */
+      2% { opacity: 1; filter: drop-shadow(0 0 15px #f09433); transform: translate(1px, -1px); }
+      5% { opacity: 0; transform: translate(0,0); }
+      8% { opacity: 1; filter: drop-shadow(0 0 15px #e6683c); transform: translate(-1px, 1px); }
+      11% { opacity: 0; transform: translate(0,0); }
+      14% { opacity: 1; filter: drop-shadow(0 0 15px #dc2743); transform: translate(0,0); }
+      18%, 100% { opacity: 0; filter: none; }
+    }
+
+    /* 2. CEO Text (വൈറ്റ് ഗ്ലോ -> റെഡ് ഗ്ലിച്ച് -> വൈറ്റ് ഗ്ലോ) */
+    @keyframes ceo-seq {
+      0%, 30% { color: #ffffff; text-shadow: 0 0 8px #ffffff; }
+      /* CEO's Turn: 33% to 48% */
+      33% { color: #dc2626; text-shadow: 0 0 15px #dc2626; transform: translate(1px, -1px); }
+      36% { color: #ffffff; text-shadow: 0 0 8px #ffffff; transform: translate(0,0); }
+      39% { color: #dc2626; text-shadow: 0 0 15px #dc2626; transform: translate(-1px, 1px); }
+      42% { color: #ffffff; text-shadow: 0 0 8px #ffffff; transform: translate(0,0); }
+      45% { color: #dc2626; text-shadow: 0 0 15px #dc2626; transform: translate(0,0); }
+      48%, 100% { color: #ffffff; text-shadow: 0 0 8px #ffffff; }
+    }
+
+    /* 3. WhatsApp (വൈറ്റ് ഗ്ലോ -> ഗ്രീൻ ഗ്ലിച്ച് -> വൈറ്റ് ഗ്ലോ) */
+    @keyframes wp-seq {
+      0%, 63% { color: #ffffff; filter: drop-shadow(0 0 8px #ffffff); }
+      /* WP's Turn: 66% to 81% */
+      66% { color: #25D366; filter: drop-shadow(0 0 15px #25D366); transform: translate(1px, -1px); }
+      69% { color: #ffffff; filter: drop-shadow(0 0 8px #ffffff); transform: translate(0,0); }
+      72% { color: #25D366; filter: drop-shadow(0 0 15px #25D366); transform: translate(-1px, 1px); }
+      75% { color: #ffffff; filter: drop-shadow(0 0 8px #ffffff); transform: translate(0,0); }
+      78% { color: #25D366; filter: drop-shadow(0 0 15px #25D366); transform: translate(0,0); }
+      81%, 100% { color: #ffffff; filter: drop-shadow(0 0 8px #ffffff); }
+    }
+
+    /* ഈ ക്ലാസുകൾ ആണ് നമ്മൾ റിയാക്റ്റിൽ ഉപയോഗിക്കുന്നത് */
+    .mob-ig-base { animation: ig-base-seq 9s infinite; }
+    .mob-ig-grad { animation: ig-grad-seq 9s infinite; }
+    .mob-ceo { animation: ceo-seq 9s infinite; }
+    .mob-wp { animation: wp-seq 9s infinite; }
+  }
+}
